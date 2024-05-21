@@ -1,10 +1,16 @@
 import React from "react";
 import { createContext, useState, useEffect } from "react";
 
-const ProductContext = createContext();
+export const ProductContext = createContext({
+  products: [],
+});
 
 const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
+
+  const productContextValue = {
+    products: products,
+  };
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -16,7 +22,7 @@ const ProductProvider = ({ children }) => {
     fetchProducts();
   }, []);
 
-  return <ProductContext.Provider value={{ products }}>{children}</ProductContext.Provider>;
+  return <ProductContext.Provider value={productContextValue}>{children}</ProductContext.Provider>;
 };
 
 export default ProductProvider;
