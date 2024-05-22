@@ -5,3 +5,6 @@ const ProductDetails = () => {
 };
 
 export default ProductDetails;
+
+
+// some code we want to delete 
