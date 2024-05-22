@@ -7,4 +7,5 @@ const ProductDetails = () => {
 export default ProductDetails;
 
 
-// new changes
+// changes made 
+//asfasfasfalsfhalsfkhalskfhalskfhalskfhalskfhalskfhalkhsf
