@@ -1,6 +1,8 @@
 import { useContext } from "react";
 import { IoMdArrowForward } from "react-icons/io";
 import { FiTrash2 } from "react-icons/fi";
+import { Link } from "react-router-dom";
+
 import CartItem from "./CartItem";
 import { SidebarContext } from "../contexts/SidebarContext";
 import { CartContext } from "../contexts/CartContext";
@@ -42,6 +44,13 @@ const Sidebar = () => {
             <FiTrash2 />
           </div>
         </div>
+
+        <Link to="/" className="bg-gray-200 flex p-4 justify-center items-center text-primary w-full font-medium">
+          View cart
+        </Link>
+        <Link to="/" className="bg-primary flex p-4 justify-center items-center text-white w-full font-medium">
+          Checkout
+        </Link>
       </div>
     </div>
   );
