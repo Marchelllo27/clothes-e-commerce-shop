@@ -6,6 +6,4 @@ const ProductDetails = () => {
 
 export default ProductDetails;
 
-
-// changes made 
-//asfasfasfalsfhalsfkhalskfhalskfhalskfhalskfhalskfhalkhsf
+// I DON'T LIKE THIS
