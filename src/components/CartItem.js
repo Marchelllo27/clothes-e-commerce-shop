@@ -41,7 +41,7 @@ const CartItem = ({ item }) => {
                 <IoMdAdd />
               </div>
             </div>
-            <div className="flex-1 flex items-center justify-around">$ {price}</div>
+            <div className="flex-1 flex items-center justify-around">$ {parseFloat(price).toFixed(2)}</div>
             <div className="flex-1 flex justify-end items-center text-primary font-medium">
               $ {parseFloat(price * amount).toFixed(2)}
             </div>

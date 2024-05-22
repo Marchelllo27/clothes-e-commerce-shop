@@ -12,7 +12,7 @@ const Product = ({ product }) => {
       <div className="border border-[#e4e4e4] h-[300px] mb-4 relative overflow-hidden group transition">
         <div className="w-full h-full flex justify-center items-center">
           <div className="w-[200px] mx-auto flex justify-center items-center">
-            <img className="max-h-[160px] group-hover:scale-110 transition duration-300" src={image} alt="" />
+            <img className="max-h-[160px] group-hover:scale-110 transition duration-300" src={image} alt={title} />
           </div>
         </div>
         {/* buttons */}
@@ -37,7 +37,7 @@ const Product = ({ product }) => {
           <h2 className="font-semibold mb-1">{title}</h2>
         </Link>
 
-        <div className="font-semibold">$ {price}</div>
+        <div className="font-semibold">$ {parseFloat(price).toFixed(2)}</div>
       </div>
     </div>
   );
