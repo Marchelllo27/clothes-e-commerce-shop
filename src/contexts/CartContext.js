@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useRef } from "react";
 
 const INCREASE = "increase";
 
@@ -13,32 +13,39 @@ export const CartContext = createContext({
 });
 
 const CartContextProvider = ({ children }) => {
+  console.count("Cart Context Fired");
   const [cart, setCart] = useState([]);
+  // const totalPriceRef = useRef(0);
+  // const itemsAmountInCartRef = useRef(0);
+  // IT'S UNNECESSARY TO USE STATE AND TRIGGER COMPONENT RE-RENDER
   const [itemAmount, setItemAmount] = useState(0);
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
+    console.count("useEffect fired");
     if (cart) {
       //total price in the cart
       setTotal(cart.reduce((acc, item) => acc + item.price * item.amount, 0));
-
       //item's amount in the cart
-      const amount = cart.reduce((acc, item) => acc + item.amount, 0);
-      setItemAmount(amount);
+      setItemAmount(cart.reduce((acc, item) => acc + item.amount, 0));
     }
   }, [cart]);
 
   const addToCart = (product, id) => {
     const newItem = { ...product, amount: 1 };
     const itemAlreadyExistsInCart = cart.find(item => item.id === id);
-
+    let newCart;
     if (itemAlreadyExistsInCart) {
       //increase the amount if product already exists in the cart.
-      const newCart = [...cart].map(item => (item.id === id ? { ...item, amount: item.amount + 1 } : item));
+      newCart = [...cart].map(item => (item.id === id ? { ...item, amount: item.amount + 1 } : item));
+
       setCart(newCart);
     } else {
-      setCart([...cart, newItem]);
+      newCart = [...cart, newItem];
+      setCart(newCart);
     }
+    // itemsAmountInCartRef.current = newCart.reduce((acc, item) => acc + item.amount, 0);
+    // totalPriceRef.current = newCart.reduce((acc, item) => acc + item.price * item.amount, 0);
   };
 
   const removeFromCart = id => {
@@ -71,6 +78,8 @@ const CartContextProvider = ({ children }) => {
     removeFromCart,
     clearCart,
     quantityHandler,
+    // itemAmount: itemsAmountInCartRef.current,
+    // total: totalPriceRef.current,
     itemAmount,
     total,
   };
