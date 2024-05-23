@@ -12,9 +12,15 @@ const Header = () => {
   const { itemAmount } = useContext(CartContext);
 
   useEffect(() => {
-    window.addEventListener("scroll", () => {
+    function handleScroll() {
       window.scrollY > 60 ? setIsActive(true) : setIsActive(false);
-    });
+    }
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return (
