@@ -37,12 +37,13 @@ const Sidebar = () => {
           <div className="uppercase font-semibold">
             <span className="mr-2">Total:</span>$ {parseFloat(total).toFixed(2)}
           </div>
-          <div
-            className="cursor-pointer flex items-center justify-center bg-red-500 text-white w-12 h-12 text-xl"
+          <button
+            className="cursor-pointer flex items-center justify-center bg-red-500 hover:bg-red-400 text-white w-12 h-12 text-xl transition disabled:pointer-events-none disabled:bg-gray-400"
+            disabled={cart.length < 1}
             onClick={clearCart}
           >
             <FiTrash2 />
-          </div>
+          </button>
         </div>
 
         <Link to="/" className="bg-gray-200 flex p-4 justify-center items-center text-primary w-full font-medium">

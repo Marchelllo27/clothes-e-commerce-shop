@@ -14,7 +14,6 @@ export const CartContext = createContext({
 });
 
 const CartContextProvider = ({ children }) => {
-  console.count("Cart Context Fired");
   const [cart, setCart] = useState([]);
   const totalPriceRef = useRef(0);
   const itemsAmountInCartRef = useRef(0);
@@ -28,6 +27,12 @@ const CartContextProvider = ({ children }) => {
   //     setItemAmount(cart.reduce((acc, item) => acc + item.amount, 0));
   //   }
   // }, [cart]);
+
+  //update amount of items and total price in cart
+  function adjustValuesInCart(productsInCart) {
+    itemsAmountInCartRef.current = productsInCart.reduce((acc, item) => acc + item.amount, 0);
+    totalPriceRef.current = productsInCart.reduce((acc, item) => acc + item.price * item.amount, 0);
+  }
 
   const addToCart = (product, id) => {
     const newItem = { ...product, amount: 1 };
@@ -43,13 +48,14 @@ const CartContextProvider = ({ children }) => {
       newCart = [...cart, newItem];
       setCart(newCart);
     }
-    //increase itemsAmount in the Cart and total Price in the cart.
-    itemsAmountInCartRef.current = newCart.reduce((acc, item) => acc + item.amount, 0);
-    totalPriceRef.current = newCart.reduce((acc, item) => acc + item.price * item.amount, 0);
+    //update itemsAmount in the Cart and total Price in the cart.
+    adjustValuesInCart(newCart);
   };
 
   const removeFromCart = id => {
     const newCart = [...cart].filter(item => item.id !== id);
+    //update itemsAmount in the Cart and total Price in the cart.
+    adjustValuesInCart(newCart);
     setCart(newCart);
   };
 
@@ -65,10 +71,14 @@ const CartContextProvider = ({ children }) => {
     const newCart = [...cart].map(item =>
       item.id === id ? { ...item, amount: addQuantity ? item.amount + 1 : item.amount - 1 } : item
     );
+    //update itemsAmount in the Cart and total Price in the cart.
+    adjustValuesInCart(newCart);
     setCart(newCart);
   };
 
   const clearCart = () => {
+    //update itemsAmount in the Cart and total Price in the cart.
+    adjustValuesInCart([]);
     setCart([]);
   };
 

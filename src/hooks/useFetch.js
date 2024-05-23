@@ -22,7 +22,6 @@ const useFetch = url => {
 
         setData(parsedData);
       } catch (error) {
-        console.log(error);
         //might be something in error.reponse
         setError(error.message || "An error occurred while fetching");
       }
