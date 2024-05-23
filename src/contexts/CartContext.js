@@ -1,7 +1,8 @@
-import { createContext, useState, useEffect, useRef } from "react";
+import { createContext, useState, useRef } from "react";
 
 const INCREASE = "increase";
 
+//create Context and give it a default values to better autocomplition whe we use it.
 export const CartContext = createContext({
   cart: [],
   addToCart: () => {},
@@ -15,37 +16,36 @@ export const CartContext = createContext({
 const CartContextProvider = ({ children }) => {
   console.count("Cart Context Fired");
   const [cart, setCart] = useState([]);
-  // const totalPriceRef = useRef(0);
-  // const itemsAmountInCartRef = useRef(0);
-  // IT'S UNNECESSARY TO USE STATE AND TRIGGER COMPONENT RE-RENDER
-  const [itemAmount, setItemAmount] = useState(0);
-  const [total, setTotal] = useState(0);
+  const totalPriceRef = useRef(0);
+  const itemsAmountInCartRef = useRef(0);
+  // WE CAN AVOID USAGE of useState and useEffect CAUSE IT TRIGGERS UNNECESSARE RE-RENDERING
+  // const [itemAmount, setItemAmount] = useState(0);
+  // const [total, setTotal] = useState(0);
 
-  useEffect(() => {
-    console.count("useEffect fired");
-    if (cart) {
-      //total price in the cart
-      setTotal(cart.reduce((acc, item) => acc + item.price * item.amount, 0));
-      //item's amount in the cart
-      setItemAmount(cart.reduce((acc, item) => acc + item.amount, 0));
-    }
-  }, [cart]);
+  // useEffect(() => {
+  //   if (cart) {
+  //     setTotal(cart.reduce((acc, item) => acc + item.price * item.amount, 0));
+  //     setItemAmount(cart.reduce((acc, item) => acc + item.amount, 0));
+  //   }
+  // }, [cart]);
 
   const addToCart = (product, id) => {
     const newItem = { ...product, amount: 1 };
     const itemAlreadyExistsInCart = cart.find(item => item.id === id);
+
     let newCart;
     if (itemAlreadyExistsInCart) {
       //increase the amount if product already exists in the cart.
       newCart = [...cart].map(item => (item.id === id ? { ...item, amount: item.amount + 1 } : item));
-
       setCart(newCart);
     } else {
+      //add a product if it doesn't exist yet in the cart
       newCart = [...cart, newItem];
       setCart(newCart);
     }
-    // itemsAmountInCartRef.current = newCart.reduce((acc, item) => acc + item.amount, 0);
-    // totalPriceRef.current = newCart.reduce((acc, item) => acc + item.price * item.amount, 0);
+    //increase itemsAmount in the Cart and total Price in the cart.
+    itemsAmountInCartRef.current = newCart.reduce((acc, item) => acc + item.amount, 0);
+    totalPriceRef.current = newCart.reduce((acc, item) => acc + item.price * item.amount, 0);
   };
 
   const removeFromCart = id => {
@@ -78,10 +78,10 @@ const CartContextProvider = ({ children }) => {
     removeFromCart,
     clearCart,
     quantityHandler,
-    // itemAmount: itemsAmountInCartRef.current,
-    // total: totalPriceRef.current,
-    itemAmount,
-    total,
+    itemAmount: itemsAmountInCartRef.current,
+    total: totalPriceRef.current,
+    // itemAmount,
+    // total,
   };
 
   return <CartContext.Provider value={cartValue}>{children}</CartContext.Provider>;
