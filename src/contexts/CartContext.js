@@ -1,4 +1,4 @@
-import { createContext, useState, useRef } from "react";
+import { createContext, useState, useEffect } from "react";
 
 const INCREASE = "increase";
 
@@ -13,26 +13,24 @@ export const CartContext = createContext({
   total: 0,
 });
 
+//check if there is cart in localStorage, if not then set cart as []
+const initialCart = JSON.parse(localStorage.getItem("cart")) || [];
+
 const CartContextProvider = ({ children }) => {
-  const [cart, setCart] = useState([]);
-  const totalPriceRef = useRef(0);
-  const itemsAmountInCartRef = useRef(0);
-  // WE CAN AVOID USAGE of useState and useEffect CAUSE IT TRIGGERS UNNECESSARE RE-RENDERING
-  // const [itemAmount, setItemAmount] = useState(0);
-  // const [total, setTotal] = useState(0);
+  const [cart, setCart] = useState(initialCart);
 
-  // useEffect(() => {
-  //   if (cart) {
-  //     setTotal(cart.reduce((acc, item) => acc + item.price * item.amount, 0));
-  //     setItemAmount(cart.reduce((acc, item) => acc + item.amount, 0));
-  //   }
-  // }, [cart]);
+  const totalItemsAmountInCart = cart.reduce((acc, item) => acc + item.amount, 0);
+  const totalPriceInCart = cart.reduce((acc, item) => acc + item.price * item.amount, 0);
 
-  //update amount of items and total price in cart
-  function adjustValuesInCart(productsInCart) {
-    itemsAmountInCartRef.current = productsInCart.reduce((acc, item) => acc + item.amount, 0);
-    totalPriceRef.current = productsInCart.reduce((acc, item) => acc + item.price * item.amount, 0);
-  }
+  //save any changes in the cart to the localStorage
+  useEffect(() => {
+    if (cart.length > 0) {
+      localStorage.removeItem("cart");
+      localStorage.setItem("cart", JSON.stringify(cart));
+    } else {
+      localStorage.removeItem("cart");
+    }
+  }, [cart]);
 
   const addToCart = (product, id) => {
     const newItem = { ...product, amount: 1 };
@@ -48,14 +46,10 @@ const CartContextProvider = ({ children }) => {
       newCart = [...cart, newItem];
       setCart(newCart);
     }
-    //update itemsAmount in the Cart and total Price in the cart.
-    adjustValuesInCart(newCart);
   };
 
   const removeFromCart = id => {
     const newCart = [...cart].filter(item => item.id !== id);
-    //update itemsAmount in the Cart and total Price in the cart.
-    adjustValuesInCart(newCart);
     setCart(newCart);
   };
 
@@ -71,14 +65,11 @@ const CartContextProvider = ({ children }) => {
     const newCart = [...cart].map(item =>
       item.id === id ? { ...item, amount: addQuantity ? item.amount + 1 : item.amount - 1 } : item
     );
-    //update itemsAmount in the Cart and total Price in the cart.
-    adjustValuesInCart(newCart);
+
     setCart(newCart);
   };
 
   const clearCart = () => {
-    //update itemsAmount in the Cart and total Price in the cart.
-    adjustValuesInCart([]);
     setCart([]);
   };
 
@@ -88,10 +79,8 @@ const CartContextProvider = ({ children }) => {
     removeFromCart,
     clearCart,
     quantityHandler,
-    itemAmount: itemsAmountInCartRef.current,
-    total: totalPriceRef.current,
-    // itemAmount,
-    // total,
+    itemAmount: totalItemsAmountInCart,
+    total: totalPriceInCart,
   };
 
   return <CartContext.Provider value={cartValue}>{children}</CartContext.Provider>;
