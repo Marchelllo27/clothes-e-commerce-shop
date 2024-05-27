@@ -7,6 +7,8 @@ import Hero from "../components/Hero";
 const Home = () => {
   const { products } = useContext(ProductContext);
 
+  console.log(products);
+
   // get only men's & women's clothing
   const filteredProducts = useMemo(
     () => products.filter(product => product.category === "men's clothing" || product.category === "women's clothing"),
