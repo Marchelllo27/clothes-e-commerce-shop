@@ -80,7 +80,8 @@ const Sidebar = () => {
         </Link> */}
         <button
           onClick={checkoutHandler}
-          className="bg-[#353535] hover:bg-primary flex p-4 justify-center items-center text-white w-full font-medium transition"
+          disabled={cart.length < 1}
+          className="bg-[#353535] hover:bg-primary flex p-4 justify-center items-center text-white w-full font-medium transition disabled:pointer-events-none disabled:bg-gray-400"
         >
           Checkout
         </button>
