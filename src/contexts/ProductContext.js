@@ -8,10 +8,10 @@ export const ProductContext = createContext({
 });
 
 const ProductProvider = ({ children }) => {
-  const [{ data }, startFetching] = useFetch("https://fakestoreapi.com/products");
+  const [{ data }, startFetching] = useFetch(`${process.env.REACT_APP_API}/get-all-products`);
 
   const productContextValue = {
-    products: data,
+    products: data?.products || [],
   };
 
   useEffect(() => {

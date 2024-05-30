@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { IoMdArrowForward } from "react-icons/io";
 import { FiTrash2 } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
 
 import CartItem from "./CartItem";
 import { SidebarContext } from "../contexts/SidebarContext";
@@ -15,11 +14,10 @@ const dummyItems = [
 const Sidebar = () => {
   const { isOpen, handleClose } = useContext(SidebarContext);
   const { cart, clearCart, total, itemAmount } = useContext(CartContext);
-  const navigate = useNavigate();
 
   async function checkoutHandler() {
     try {
-      const response = await fetch("http://localhost:3000/create-checkout-session", {
+      const response = await fetch(`${process.env.REACT_APP_API}/create-checkout-session`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -27,17 +25,18 @@ const Sidebar = () => {
         }),
       });
 
+      // server should send us back url to the stripe payment page
+      const responseData = await response.json();
+
       //IF RESPONSE IS NOT OK
       if (!response.ok) {
-        console.log(response);
-        throw new Error("Something went wrong");
+        throw new Error(responseData.error);
       }
-      // server should send us back url
-      const url = await response.json();
-      console.log(url);
-      // navigate(url);
+
+      //navigate to the stripe payment page
+      window.location = responseData.url;
     } catch (error) {
-      console.error(error.error || "Something went wrong");
+      console.error(error || "Something went wrong");
     }
   }
 

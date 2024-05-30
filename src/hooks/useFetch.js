@@ -3,7 +3,7 @@ import { useState, useCallback, useRef, useMemo } from "react";
 const useFetch = url => {
   const [isLoading, setIsLoading] = useState(null);
   const [error, setError] = useState(null);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
 
   const controllerRef = useRef();
   controllerRef.current = useMemo(() => new AbortController(), []);
@@ -12,7 +12,7 @@ const useFetch = url => {
     async (options = {}) => {
       setIsLoading(true);
       setError(null);
-      setData([]);
+      setData(null);
 
       try {
         const response = await fetch(url, { ...options, signal: controllerRef.current.signal });
