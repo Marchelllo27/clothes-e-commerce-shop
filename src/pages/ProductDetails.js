@@ -27,7 +27,10 @@ const ProductDetails = () => {
             <h1 className="text-[26px] font-medium mb-2 max-w-[450px] mx-auto lg:mx-0">{title}</h1>
             <div className="text-xl text-red-500 font-medium mb-6">$ {parseFloat(price).toFixed(2)}</div>
             <p className="mb-8">{description}</p>
-            <button className="bg-primary py-4 px-8 text-white" onClick={() => addToCart(productData, productData.id)}>
+            <button
+              className="bg-[#353535] hover:bg-primary py-4 px-8 text-white"
+              onClick={() => addToCart(productData, productData.id)}
+            >
               Add to cart
             </button>
           </div>

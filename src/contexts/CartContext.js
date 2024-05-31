@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useCallback } from "react";
 
 const INCREASE = "increase";
 
@@ -69,9 +69,9 @@ const CartContextProvider = ({ children }) => {
     setCart(newCart);
   };
 
-  const clearCart = () => {
-    setCart([]);
-  };
+  const clearCart = useCallback(() => {
+    return setCart([]);
+  }, []);
 
   const cartValue = {
     cart,
