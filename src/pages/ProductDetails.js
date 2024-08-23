@@ -8,6 +8,9 @@ const ProductDetails = () => {
   const { addToCart } = useContext(CartContext);
   const { id } = useParams();
 
+  //scroll to the top before rendering the product detail page.
+  window.scrollTo(0, 0);
+
   const productData = products.find(product => product.id === +id);
 
   if (!productData) {

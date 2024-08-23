@@ -22,11 +22,11 @@ const useFetch = url => {
 
         setData(parsedData);
       } catch (error) {
-        //might be something in error.reponse
+        //might be something in error.response
         setError(error.message || "An error occurred while fetching");
       }
 
-      //If an error occured or data was successfully fetched then stop loading status
+      //set loading false whether fetching successfull or not..
       setIsLoading(false);
 
       controllerRef.current = null; //clear controller

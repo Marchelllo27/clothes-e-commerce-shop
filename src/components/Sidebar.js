@@ -1,47 +1,37 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect } from "react";
 import { IoMdArrowForward } from "react-icons/io";
 import { FiTrash2 } from "react-icons/fi";
 
 import CartItem from "./CartItem";
+import useFetch from "../hooks/useFetch";
 import { SidebarContext } from "../contexts/SidebarContext";
 import { CartContext } from "../contexts/CartContext";
 
 const Sidebar = () => {
   const { isOpen, handleClose } = useContext(SidebarContext);
   const { cart, clearCart, total, itemAmount } = useContext(CartContext);
-  const [isLoading, setIsLoading] = useState(false);
 
-  //transform all items in an appropriat format to be send to the server
+  const [{ isLoading, error, data }, startFetching] = useFetch(`${process.env.REACT_APP_API}/create-checkout-session`);
+
+  //transform all items in a safe format to be send to the server, avoiding adding price etc.
   const checkOutItems = cart.map(item => ({
     id: item.id,
     quantity: item.amount,
   }));
 
-  async function checkoutHandler() {
-    setIsLoading(true);
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API}/create-checkout-session`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          items: checkOutItems,
-        }),
-      });
-
-      // server should send us back url to the stripe payment page
-      const responseData = await response.json();
-
-      if (!response.ok) {
-        throw new Error(responseData.error);
-      }
-
-      //navigate to the stripe payment page if successful
-      window.location = responseData.url;
-    } catch (error) {
-      setIsLoading(false);
-      console.error(error || "Something went wrong");
-    }
+  function checkoutHandler() {
+    startFetching({
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        items: checkOutItems,
+      }),
+    });
   }
+
+  useEffect(() => {
+    if (data) return (window.location = data.url);
+  }, [data]);
 
   return (
     <div
@@ -77,6 +67,12 @@ const Sidebar = () => {
             <FiTrash2 />
           </button>
         </div>
+
+        {error && (
+          <p className="text-red-500 font-medium">
+            Something went wrong, we can not proceed your payment, please try again later.
+          </p>
+        )}
 
         {/* <Link to="/" className="bg-gray-200 flex p-4 justify-center items-center text-primary w-full font-medium">
           View cart
