@@ -29,12 +29,13 @@ const Sidebar = () => {
     });
   }
 
+  //redirect user to checkout page if we got a response from server & stripe.
   useEffect(() => {
     if (data) return (window.location = data.url);
   }, [data]);
 
   return (
-    <div
+    <aside
       className={`${isLoading ? "pointer-events-none" : ""} ${
         isOpen ? "right-0" : "-right-full"
       } flex flex-col w-full bg-white fixed top-0 h-full shadow-2xl md:w-[35vw] xl:max-w-[30vw] transition-all duration-300 z-20 px-4 lg:px-[35px]`}
@@ -85,7 +86,7 @@ const Sidebar = () => {
           {isLoading ? "Loading..." : "Checkout"}
         </button>
       </div>
-    </div>
+    </aside>
   );
 };
 

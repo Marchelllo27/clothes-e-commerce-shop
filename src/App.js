@@ -3,21 +3,24 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import ProductDetail from "./pages/ProductDetails";
 import SuccessfulPaymentPage from "./pages/Successful";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import Sidebar from "./components/Sidebar";
+import NotFoundPage from "./pages/NotFoundPage";
+import Layout from "./components/Layout";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 const App = () => {
   return (
     <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/product/:id" element={<ProductDetail />} />
-        <Route path="/successful-payment" element={<SuccessfulPaymentPage />} />
-      </Routes>
-      <Sidebar />
-      <Footer />
+      <ErrorBoundary>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/product/:id" element={<ProductDetail />} />
+            <Route path="/successful-payment" element={<SuccessfulPaymentPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </Layout>
+      </ErrorBoundary>
     </BrowserRouter>
   );
 };

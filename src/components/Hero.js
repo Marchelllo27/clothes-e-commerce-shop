@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import HeroContainer from "./HeroContainer";
 import WomanImg from "../img/woman_hero.png";
 
-//NEW TREND COMPONENT
 const NewTrend = () => (
   <div className="font-semibold flex items-center uppercase">
     <span className="w-10 h-[2px] bg-red-500 mr-3"></span>
