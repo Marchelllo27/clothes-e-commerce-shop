@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { useParams } from "react-router-dom";
 import { ProductContext } from "../contexts/ProductContext";
 import { CartContext } from "../contexts/CartContext";
+import Spinner from "../helpers/Spinner";
 
 const ProductDetails = () => {
   const { products } = useContext(ProductContext);
@@ -14,7 +15,11 @@ const ProductDetails = () => {
   const productData = products.find(product => product.id === +id);
 
   if (!productData) {
-    return <section className="h-screen flex justify-center items-center">Loading...</section>;
+    return (
+      <section className="h-screen flex justify-center items-center">
+        <Spinner />
+      </section>
+    );
   }
 
   const { title, price, description, image } = productData;
