@@ -7,6 +7,8 @@ import NotFoundPage from "./pages/NotFoundPage";
 import Layout from "./components/Layout";
 import ErrorBoundary from "./components/ErrorBoundary";
 
+//dummy comment
+
 const App = () => {
   return (
     <BrowserRouter>
