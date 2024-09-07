@@ -4,12 +4,12 @@ import Sidebar from "./Sidebar";
 
 const Layout = ({ children }) => {
   return (
-    <main className="flex flex-col w-full h-screen">
+    <>
       <Header />
-      {children}
+      <main className="flex flex-col w-full min-h-screen">{children}</main>
       <Sidebar />
       <Footer />
-    </main>
+    </>
   );
 };
 export default Layout;

@@ -24,15 +24,21 @@ const ProductDetails = () => {
 
   const { title, price, description, image } = productData;
 
+  const Image = () => {
+    return (
+      <div className="flex flex-1 justify-center items-center mb-8 lg:mb-0">
+        <img src={image} alt={title} className="max-w-[200px] lg:max-w-sm" />
+      </div>
+    );
+  };
+
   return (
-    <section className="pt-32 pb-12 lg:py-32 min-h-screen flex items-center">
+    <section className="pt-32 pb-12 lg:py-32">
       <div className="container mx-auto">
-        <div className="flex flex-col lg:flex-row items-center">
-          <div className="flex flex-1 justify-center items-center mb-8 lg:mb-0">
-            <img src={image} alt={title} className="max-w-[200px] lg:max-w-sm" />
-          </div>
-          <div className="flex-1 text-center lg:text-left">
-            <h1 className="text-[26px] font-medium mb-2 max-w-[450px] mx-auto lg:mx-0">{title}</h1>
+        <div className="flex flex-col lg:flex-row lg:gap-20 items-center">
+          <Image />
+          <div className="text-center lg:text-left">
+            <h1 className="text-[26px] font-medium mb-10 max-w-[450px] mx-auto lg:mx-0">{title}</h1>
             <div className="text-xl text-red-500 font-medium mb-6">$ {parseFloat(price).toFixed(2)}</div>
             <p className="mb-8">{description}</p>
             <button
