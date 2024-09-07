@@ -33,7 +33,7 @@ const Home = () => {
   return (
     <>
       <Hero />
-      <section className="py-16">
+      <section className="py-16" id="products-section">
         <div className="container mx-auto">{productsComponent}</div>
       </section>
     </>

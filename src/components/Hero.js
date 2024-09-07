@@ -18,9 +18,9 @@ const HeroText = () => (
       AUTUMN SALE STYLISH <br />
       <span className="font-semibold">WOMENS</span>
     </h1>
-    <Link to={"/"} className="self-start uppercase font-semibold border-b-2 border-primary">
+    <a href={"#products-section"} className="self-start uppercase font-semibold border-b-2 border-primary">
       Discover More
-    </Link>
+    </a>
   </div>
 );
 
