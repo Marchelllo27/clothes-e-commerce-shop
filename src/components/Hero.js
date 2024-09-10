@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 import HeroContainer from "./HeroContainer";
 import WomanImg from "../img/woman_hero.png";
